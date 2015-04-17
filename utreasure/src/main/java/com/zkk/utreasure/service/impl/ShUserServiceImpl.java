@@ -5,11 +5,9 @@ package com.zkk.utreasure.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.zkk.utreasure.dao.ShUserMapper;
 import com.zkk.utreasure.entity.ShUser;
@@ -17,9 +15,14 @@ import com.zkk.utreasure.mail.MailSenderInfo;
 import com.zkk.utreasure.mail.SimpleMailSender;
 import com.zkk.utreasure.service.ShUserServiceI;
 import com.zkk.utreasure.service.basic.BaseServiceImpl;
+import  com.zkk.utreasure.dto.RegisterUser;
+
 
 @Service
 public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUserServiceI {
+	
+	
+	private Logger log = Logger.getLogger(ShUserServiceImpl.class); 
 	
 	@Autowired
 	private ShUserMapper shUserMapper;
@@ -44,16 +47,13 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 
 
 	/**
-	 * 发送电子邮件
+	 * 发送电子
 	 */
-	public boolean sendEmail(String email, HttpSession session) {
-		Map<String, Object> model = new HashMap<String, Object>();
-		session.setAttribute("email", email);
-		ShUser user =this.getUserByEmail(session.getAttribute("email").toString());
-		if(false){
-			model.put("message", "邮箱不存在");
-		}
-		else {
+
+	public boolean sendEmail(String email,RegisterUser registerUser) {
+		if(email==null)  return false;
+		
+		try {
 		MailSenderInfo mailInfo = new MailSenderInfo();
 		mailInfo.setMailServerHost("smtp.126.com");
 		mailInfo.setMailServerPort("25");
@@ -63,12 +63,16 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 		mailInfo.setFromAddress("zhangkang65@126.com");
 		mailInfo.setToAddress(email);
 		mailInfo.setSubject("show treasure");
-		mailInfo.setContent("欢迎注册您的用户名是：888888，密码是：888888");
+		mailInfo.setContent("欢迎注册二手宝，您的用户名是："+registerUser.getLoginName()+"，密码是:"+registerUser.getPassword()+
+				  "<br>"+"请妥善保管您的账号。<br/>"+
+				"<a href=\"http://localhost:8080/utreasure/\">直接登录</a>");
 		// 这个类主要来发送邮件
 		SimpleMailSender sms = new SimpleMailSender();
-		sms.sendTextMail(mailInfo);// 发送文体格式
+		//sms.sendTextMail(mailInfo);// 发送文体格式
 		sms.sendHtmlMail(mailInfo);// 发送html格式
-		model.put("email", email);
+		}catch(Exception e){
+			log.error("sendEmail",e);
+			e.printStackTrace();
 		}
 		return true;
 	}
@@ -78,6 +82,10 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 			
 			return null;
 		}
+
+
+
+		
 
 
 

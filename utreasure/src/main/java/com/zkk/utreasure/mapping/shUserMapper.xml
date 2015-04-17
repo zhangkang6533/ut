@@ -31,7 +31,7 @@
 	<select id="getByName" parameterType="Map" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List"></include>
-		from utr_user  where  
+		from UTR_USER  where  
 		 <if test="fieldName=='userName'.toString()">
 			userName=#{fieldValue,jdbcType=VARCHAR}
 		</if>

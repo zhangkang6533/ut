@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class ShUserController {
 	 * @since  2015-4-16 15:44:09
 	 */
 	@RequestMapping(value="/doRegister")
-	public ModelAndView   doRegister(RegisterUser  registerUser,HttpSession  session){
+	public ModelAndView   doRegister(RegisterUser  registerUser){
 		//创建对象  接受参数
 		ShUser  shUser=new ShUser();
 		//密码加密 
@@ -65,7 +64,7 @@ public class ShUserController {
 			int count=shUserServicei.RegisterUser(shUser);
 			if(count!=0){ //注册成功 发送邮件 
 				//SendEmailThread
-				Thread  thread=new Thread(new SendEmailThread(registerUser.getEmail(),session));
+				Thread  thread=new Thread(new SendEmailThread(registerUser.getEmail(),registerUser));
 				thread.start();	
 			}
 		} catch (Exception e) {
@@ -87,17 +86,17 @@ public class ShUserController {
 	 */
 	class  SendEmailThread  implements  Runnable{
 		private  String  email;
-		private  HttpSession  session;
+		private  RegisterUser registerUser;
 		//无参构造
 		public SendEmailThread() {}
 
-		public SendEmailThread(String email, HttpSession session) {
+		public SendEmailThread(String email, RegisterUser registerUser) {
 			this.email=email;
-			this.session=session;
+			this.registerUser=registerUser;
 		}
 
 		public void run() {
-			boolean  isSend=shUserServicei.sendEmail(email,session);
+			boolean  isSend=shUserServicei.sendEmail(email,registerUser);
 		}
 		
 	}
