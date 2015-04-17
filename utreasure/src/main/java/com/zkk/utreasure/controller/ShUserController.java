@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -94,9 +95,19 @@ public class ShUserController {
 			this.email=email;
 			this.registerUser=registerUser;
 		}
-
+		
 		public void run() {
-			boolean  isSend=shUserServicei.sendEmail(email,registerUser);
+			boolean isSend=false;
+			try {
+				isSend = shUserServicei.sendEmail(email,registerUser);
+				if(isSend){
+					log.info("发送邮件成功");
+				}
+			} catch (Exception e) {
+				log.error("sendemail",e);
+				e.printStackTrace();
+			}
+			
 		}
 		
 	}

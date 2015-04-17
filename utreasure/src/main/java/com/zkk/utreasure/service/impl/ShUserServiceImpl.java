@@ -5,6 +5,8 @@ package com.zkk.utreasure.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,17 +52,19 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 	 * 发送电子
 	 */
 
-	public boolean sendEmail(String email,RegisterUser registerUser) {
-		if(email==null)  return false;
+	public boolean sendEmail(String email,RegisterUser registerUser) throws  MessagingException {
+		 boolean isSendOK=false;
+		if(email==null)  return isSendOK;
 		
-		try {
 		MailSenderInfo mailInfo = new MailSenderInfo();
-		mailInfo.setMailServerHost("smtp.126.com");
+		//smtp.126.com
+		mailInfo.setMailServerHost("smtp.aisainfo.com");
 		mailInfo.setMailServerPort("25");
 		mailInfo.setValidate(true);
-		mailInfo.setUserName("zhangkang65@126.com");
-		mailInfo.setPassword("zkk6167489");// 您的邮箱密码
-		mailInfo.setFromAddress("zhangkang65@126.com");
+		//zhangkang65@126.com
+		mailInfo.setUserName("zhangkk@aisainfo.com");
+		mailInfo.setPassword("!QAZ2wsx");// 您的邮箱密码
+		mailInfo.setFromAddress("zhangkk@aisainfo.com");
 		mailInfo.setToAddress(email);
 		mailInfo.setSubject("show treasure");
 		mailInfo.setContent("欢迎注册二手宝，您的用户名是："+registerUser.getLoginName()+"，密码是:"+registerUser.getPassword()+
@@ -69,12 +73,8 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 		// 这个类主要来发送邮件
 		SimpleMailSender sms = new SimpleMailSender();
 		//sms.sendTextMail(mailInfo);// 发送文体格式
-		sms.sendHtmlMail(mailInfo);// 发送html格式
-		}catch(Exception e){
-			log.error("sendEmail",e);
-			e.printStackTrace();
-		}
-		return true;
+		isSendOK=sms.sendHtmlMail(mailInfo);// 
+		return isSendOK;
 	}
 
 		
@@ -82,13 +82,6 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 			
 			return null;
 		}
-
-
-
-		
-
-
-
 }
 
 

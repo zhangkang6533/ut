@@ -32,6 +32,7 @@ function registerInfo(){
 	    if(reLoginName.test(loginName)){
 	        return  true;
 	    }else{
+	    	alert("对不起，您的用户名不符合规范");
 	    	return  false;
 	    }       
 }
