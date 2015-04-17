@@ -43,9 +43,10 @@ public class ShUserServiceImpl extends  BaseServiceImpl<ShUser> implements ShUse
 	}
 
 
-
+	/**
+	 * 发送电子邮件
+	 */
 	public boolean sendEmail(String email, HttpSession session) {
-
 		Map<String, Object> model = new HashMap<String, Object>();
 		session.setAttribute("email", email);
 		ShUser user =this.getUserByEmail(session.getAttribute("email").toString());

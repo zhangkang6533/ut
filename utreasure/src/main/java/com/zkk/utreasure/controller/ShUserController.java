@@ -65,7 +65,7 @@ public class ShUserController {
 			int count=shUserServicei.RegisterUser(shUser);
 			if(count!=0){ //注册成功 发送邮件 
 				//SendEmailThread
-				Thread  thread=new Thread(new SendEmailThread("zhangkang65@qq.com",session));
+				Thread  thread=new Thread(new SendEmailThread(registerUser.getEmail(),session));
 				thread.start();	
 			}
 		} catch (Exception e) {

@@ -19,7 +19,7 @@
 		<result property="userType" jdbcType="VARCHAR" column="userType" />
 	</resultMap>
 
-
+ 
 	<sql id="Base_Column_List">
 		id,userName,loginName,sex,age,password,createTime,updateTime,icon,
 		address,identityCardId,telePhone,email,userType
@@ -44,13 +44,13 @@
 	<!-- 插入对象 -->
 	<insert id="insertSelective" parameterType="com.zkk.utreasure.entity.ShUser"
 		useGeneratedKeys="true" keyProperty="id">
-		<!-- oracle 主键增长的专属 -->
+		<!-- oracle 主键增长的专属 
 		<selectKey resultType="java.lang.String" order="BEFORE"
 			keyProperty="id">
 			SELECT TestIncrease_Sequence.Nextval as ID from DUAL
 		</selectKey>
-
-		insert into utr_user
+	-->
+		insert into UTR_USER
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id!= null">
 				id,

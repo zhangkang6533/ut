@@ -1,0 +1,19 @@
+create table UTR_USER(
+		  id             VARCHAR2(20) primary key  not null  auto_increment,
+		  username       VARCHAR2(20),
+		  loginname      VARCHAR2(20) not null,
+		  sex            VARCHAR2(1),
+		  age            NUMBER,
+		  password       VARCHAR2(30) not null,
+		  createtime     DATE,
+		  updatetime     DATE,
+		  icon           VARCHAR2(30),
+		  address        VARCHAR2(30),
+		  identitycardid VARCHAR2(20),
+		  telephone      VARCHAR2(20),
+		  email          VARCHAR2(30),
+		  usertype       VARCHAR2(10),
+		  shbat1         VARCHAR2(20)
+		)
+		
+	
