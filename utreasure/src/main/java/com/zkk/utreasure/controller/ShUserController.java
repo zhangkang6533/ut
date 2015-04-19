@@ -101,10 +101,11 @@ public class ShUserController {
 			try {
 				isSend = shUserServicei.sendEmail(email,registerUser);
 				if(isSend){
-					log.info("发送邮件成功");
+					log.debug("发送邮件成功");
 				}
+				//TODO   似乎Exception e  里面的代码不运行 
 			} catch (Exception e) {
-				log.error("sendemail",e);
+				log.error("sendemail false");
 				e.printStackTrace();
 			}
 			

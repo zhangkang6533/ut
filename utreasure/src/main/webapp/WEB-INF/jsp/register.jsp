@@ -10,11 +10,10 @@
 <html>
 <head>
 <base href="<%=basePath%>">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel='icon' href="<%=basePath%>images/front.ico" type="image/x-ico" />
+<jsp:include page="../../comm/public.jsp"></jsp:include>
 <title>register</title>
 <!-- js  css 信息 -->
-<script type="text/javascript"  src="jquery.mobile-1.3.2/jquery-1.8.3.min.js"></script>
+
 <script type="text/javascript">
 function registerInfo(){
 	var  loginName=$("#user_profile_name").val();
@@ -22,19 +21,26 @@ function registerInfo(){
 	var  password=$("#user_profile_password").val();
 	var  password2=$("#user_profile_password2").val();
 	 
-	/**---------js正则校验-----------
+	/**
 		1、用户名 5-13位 数字 字母 下划线 
-	    2、密码三种混合
-	    3、邮箱校验 且  发送验证邮件
 	**/
 	
-	var reLoginName = /^[a-z_A-z]\w{4,12}$/;
-	    if(reLoginName.test(loginName)){
-	        return  true;
-	    }else{
+		var reLoginName = /^[a-z_A-z]\w{4,12}$/;
+	    if(!reLoginName.test(loginName)){
 	    	alert("对不起，您的用户名不符合规范");
 	    	return  false;
-	    }       
+	    } 
+	    
+	  /**
+	   2、密码三种混合
+	  **/
+	  
+	    if(password!=password2){
+	    	alert("两次密码长度不同 ");
+	    	return  false;
+	    }
+	    
+	    
 }
 
    
@@ -67,7 +73,14 @@ $(function(){
 		});
 })
 </script>
+
+
 <style type="text/css">
+.boxed-group{
+width: 100%;
+height: 100%;
+}
+
 .warnTip{
 color: red;
 }
@@ -77,12 +90,18 @@ color: red;
 color:blue;
 }
 
+
+.btn-primary{
+	width: 100px;
+}
 </style>
 </head>
 <body>
-	<div class="boxed-group">
+	<div class="boxed-group"  data-role="page">
+		<div  data-role="header" data-position="fixed">
 		<h3>注册信息</h3>
-		<div>
+		</div>
+		<div  data-role="content">
 			<form accept-charset="UTF-8" action="user/doRegister.do"  method="post"  onsubmit="return  registerInfo()">
 				<div>
 					<dl class="form">
@@ -90,7 +109,7 @@ color:blue;
 							<label for="user_profile_name">登陆名</label>
 						</dt>
 						<dd>
-							<input id="user_profile_name" name="loginName" size="30" type="text" />
+							<input id="user_profile_name" name="loginName"  type="text"  />
 						</dd>
 						<dd id="user_profile_tip">
 						</dd>
@@ -100,7 +119,7 @@ color:blue;
 							<label for="user_profile_email">邮箱</label>
 						</dt>
 						<dd>
-							<input id="user_profile_email" name="email" size="30" type="email" />
+							<input id="user_profile_email" name="email"  type="email" />
 						</dd>
 						<dd>
 							<span  id="user_profile_email"></span>
@@ -111,7 +130,7 @@ color:blue;
 							<label for="user_profile_password">密码</label>
 						</dt>
 						<dd>
-							<input id="user_profile_password" name="password" size="30" type="password" />
+							<input id="user_profile_password" name="password"  type="password" />
 						</dd>
 					</dl>
 					<dl class="form">
@@ -119,7 +138,7 @@ color:blue;
 							<label for="user_profile_password2">密码确认</label>
 						</dt>
 						<dd>
-							<input id="user_profile_password2" name="password2" size="30" type="password" />
+							<input id="user_profile_password2" name="password2"  type="password" />
 						</dd>
 					</dl>
 					<p>
